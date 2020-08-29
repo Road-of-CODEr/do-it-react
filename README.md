@@ -3,6 +3,7 @@
 ![Cover](https://image.yes24.com/momo/TopCate2918/MidCate010/291798691.jpg)
 
 - 참여자: 1ilsang, marco0332
+- [책 레파지토리](https://github.com/justinpark/justin-do-it-react)
 
 ### 진행방식
 

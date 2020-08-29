@@ -331,6 +331,138 @@ map 이 각광받는 이유는 다른 함수들과 "조합"이 가능하기 때�
 
 ## 비동기 함수
 
+ES6의 비동기 함수 처리 방법 알아보기
 
+```javascript
+const work1 = () =>
+  new Promise(resolve => {
+    setTimeout(() => resolve('작업1 완료!'), 100);
+  });
+const work2 = () =>
+  new Promise(resolve => {
+    setTimeout(() => resolve('작업2 완료!'), 200);
+  });
+const work3 = () =>
+  new Promise(resolve => {
+    setTimeout(() => resolve('작업3 완료!'), 300);
+  });
+function urgentWork() {
+  console.log('긴급 작업');
+}
+
+const nextWorkOnDone = msg1 => {
+  console.log('done after 100ms:' + msg1);
+  return work2();
+};
+
+work1()
+  .then(nextWorkOnDone)
+  .then(msg2 => {
+    console.log('done after 200ms:' + msg2);
+    return work3();
+  })
+  .then(msg3 => {
+    console.log(`done after 600ms:${msg3}`);
+  });
+urgentWork();
+const work1and2 = () =>
+  work1().then(msg1 => {
+    console.log('done after 100ms:' + msg1);
+    return work2();
+  });
+
+work1and2()
+  .then(msg2 => {
+    console.log('done after 200ms:' + msg2);
+    return work3();
+  })
+  .then(msg3 => {
+    console.log('done after 600ms:' + msg3);
+  });
+```
+
+<details>
+<summary style="cursor: pointer;">QUIZ: 위 코드의 실행 결과는?</summary>
+<div markdown="1">
+
+```javascript
+// 긴급 작업
+// done after 100ms: 작업1 완료!
+// done after 100ms: 작업1 완료!
+// done after 200ms: 작업2 완료!
+// done after 200ms: 작업2 완료!
+// done after 600ms: 작업3 완료!
+// done after 600ms: 작업3 완료!
+```
+
+</div>
+</details>
 
 ## 디바운스와 스로틀
+
+- "지연 처리"에 대해 다룬다.
+- 디바운스(debounce)는 "마지막에 입력된 내용"을 요청한다.
+  - 예: 자동 완성(유저가 빠르게 타이핑하는 동안은 무시하다 잠깐 멈출 때 요청)
+- 스로틀(throttle)은 "특정 시간의 첫 번째 내용"을 요청한다.
+  - 예: 무한 스크롤(스크롤이 마지막 즈음으로 갈 때 최초 한 번 요청하고 일정 시간동안 액션 홀딩)
+
+무한 스크롤에서 디바운스를 사용하게 될 경우 유저가 계속해서 스크롤을 내리고 있다면 무한히 Delay 만큼의 여유가 있는 마지막 입력을 기다리게 되므로 새로운 페이지가 뜨지 않게된다.
+
+```javascript
+// Debounce
+// inDebounce 를 기준으로 timeout 을 거는 형태.
+// 입력이 계속해서 들어오면(return function 이 실행되면) clearTimeout 으로 timeout 을 지움.
+// 이로 인해 delay 만큼의 충분한 시간이 지난 경우에만 실행 됨.
+export function debounce(func, delay) {
+  let inDebounce;
+  return function(...args) {
+    if(inDebounce) clearTimeout(inDebounce);
+    inDebounce = setTimeout(() => func(...args), delay);
+  }
+};
+
+const run = debounce(val => console.log(val), 100);
+run('a');
+run('b');
+run(2);
+// After 100ms
+// 2
+```
+
+```javascript
+// Throttle
+function throttle(func, delay) {
+  let lastFunc;
+  let lastRan;
+  return function(...args) {  // 아래 코드의 window.addEventListener 의 인자가 args 로 들어오게 된다.
+    const context = this;     // this hold
+    if(!lastRan) {            // 최초의 실행에 해당. 즉시 함수를 실행시키며 현재 시간을 lastRan 에 넣어준다.
+      func.call(context, ...args);
+      lastRan = Date.now();
+    } else {
+      // 마지막에 입력받은 타이머가 있다면 클리어 시킨다.(딜레이 까지 모두 무시)
+      if(lastFunc) clearTimeout(lastFunc);
+      lastFunc = setTimeout(function() {
+        // 현재 시간과 이전에 실행시킨 시간을 뺀 값과 delay 를 비교해 실행 시기를 정한다.
+        if((Date.now() - lastRan) >= delay) {
+          func.call(context, ...args);
+          lastRan = Date.now();
+        }
+      }, delay - (Date.now() - lastRan));
+    }
+  }
+}
+
+const checkPosition = () => {
+  const offset = 500;
+  const currentScrollPosition = window.pageYOffset;
+  const pageBottomPosition = document.body.offsetHeight - window.innerHeight - offset;
+  if(currentScrollPosition >= pageBottomPosition) { // 바텀의 근처로 스크롤이 진입하면
+    // fetch('/page/next');
+    console.log('다음 페이지 로딩');
+  }
+};
+
+const infiniteScroll = throttle(checkPosition, 300); // 첫 이벤트 시작 후 300ms 동안의 이벤트는 무시하는 throttle 함수를 가져온다.
+window.addEventListener('scroll', infiniteScroll); // 스크롤 이벤트가 일어날 때마다 infiniteScroll 함수를 실행시킨다.
+```
