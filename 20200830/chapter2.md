@@ -234,10 +234,103 @@ class MyClass {
 
 ## 객체 확장 표현식과 구조 분해 할당
 
+```javascript
+const x = 0;
+const y = 1;
+const con = { x, y };
+
+const str = `1ilsang`;
+const obj = {
+  [str + '-dev']: `1ilsang-dev`,
+  go() {
+    return 'wow';
+  }
+};
+console.log(obj['1ilsang-dev'], obj.go());
+
+const arr = [0, 1];
+let [a, b] = arr;
+[b, a] = [a, b];
+console.log(a, b);
+
+const obj2 = {
+  a: 1,
+  b: 2,
+};
+const {
+  a: A,
+  b,
+  c = 'Default Value'
+} = obj2;
+console.log(A, b, c, obj2);
+
+const [item1, ...otherItems] = [0, 1, 2];
+const {key1, ...others} = { a: 1, b: 2, key1: 'KEY1' };
+console.log(item1, otherItems, key1, others);
+```
+
+<details>
+<summary style="cursor: pointer;">INFO: 구조 분해 할당에서의 유의점</summary>
+<div markdown="1">
+
+```javascript
+const b = undefined;
+const {
+  a = 'default!'
+} = b;
+// ERROR! Cannot read property 'a' of undefined.
+```
+
+분해할 객체 자체가 없을 경우 에러가 발생한다. 자주 일어날 수 있으므로 값을 명확히 해주어야 한다.
+
+</div>
+</details>
+
 ## 라이브러리 의존성 관리
+
+기존의 자바스크립트는 라이브러리를 `<script src="..." />` 엘리먼트를 이용해 관리했다.
+
+- 이렇게 할 경우 **순서** 가 매우 중요해진다.(로드 되기 전의 스크립트 파일을 사용하면 에러)
+
+위의 문제를 해결하고자 ES6 에서 `import` 구문을 통해 `script` 엘리먼트 없이 ***연결된 파일 및 의존 파일을 모두 먼저 내려 받고 코드를 구동*** 하도록 변경했다.
 
 ## 배열 함수
 
+- `forEach, map, reduce`
+
+`forEach` 가 요소 자체를 순회하는 것이라면 `map` 함수는 요소를 순회하면서 "반환한 값으로 새 배열을 만든다".
+
+`reduce` 함수는 요소를 순회하면서 누적해서 값을 만들고, 최종적으로 누적된 값을 리턴한다.
+
+```javascript
+const arr = [1, 2, 3];
+const obj = arr.reduce((acc, cur) => {
+  acc.value += cur;
+  return acc;
+}, {value: 0});
+
+console.log(obj, obj.value);
+```
+
+- `reduce` 함수는 주로 배열을 특정 자료형으로 변환하는데 사용한다.
+
+<details>
+<summary style="cursor: pointer;">QUIZ: forEach vs map</summary>
+<div markdown="1">
+
+forEach 는 리턴 없이 요소 호출만 하지만, map 의 경우 요소 호출마다 기존 배열과 동일한 사이즈의 새로운 배열을 반환한다.
+
+이로인해 forEach 보다 map 이 70% 정도 느리다.
+
+map 이 각광받는 이유는 다른 함수들과 "조합"이 가능하기 때문.
+
+`arr.map(e => e * 2).filter(e => e % 2);` 와 같이 사용할 수 있다.
+
+</div>
+</details>
+
 ## 비동기 함수
+
+
 
 ## 디바운스와 스로틀
