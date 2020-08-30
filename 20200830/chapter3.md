@@ -66,7 +66,7 @@ import Item from './item';
 // props: {items - 리스트에 표시될 항목들을 담고 있는 Array}
 const List = ({items}) => (
   <div className="list">
-		items.map(item => <Item item={item} key={item.id} />)
+    items.map(item => <Item item={item} key={item.id} />)
   <div/>
 );
 
@@ -78,9 +78,9 @@ export default List;
 import React from 'react';
 
 const Item = ({item}) => (
-	<div className="item">
-  	<p>{item.title}</p>
-		<p>{item.contents}<p>
+  <div className="item">
+    <p>{item.title}</p>
+    <p>{item.contents}<p>
   </div>
 );
 
@@ -112,15 +112,15 @@ import Item from './item';
 // props: {items - 리스트에 표시될 항목들을 담고 있는 Array}
 const List = ({items}) => (
   <div className="list">
-		items.map(item => 
-  		<Item
-  			key={item.id}
-  			title="myItem"						// String
-				contents={item.contents}	// [String]
-				id={item.id}							// String
-				isDisplayId								// Boolean - 프로퍼티 명시 안할 경우 false, 할 경우 true
-			>
-        <div>This is children node</div>	// children
+    items.map(item => 
+      <Item
+        key={item.id}
+        title="myItem"            // String
+        contents={item.contents}  // [String]
+        id={item.id}              // String
+        isDisplayId               // Boolean - 프로퍼티 명시 안할 경우 false, 할 경우 true
+      >
+        <div>This is children node</div>  // children
       </Item>
     )
   <div/>
@@ -139,9 +139,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Item = ({title, contents, id, isDisplay, children}) => (
-	<div className="item">
-  	<p>{title}</p>
-		<p>{contents[0]}<p>
+  <div className="item">
+    <p>{title}</p>
+    <p>{contents[0]}<p>
     <p>{contents[1]}<p>  
     {isDiaply && <p>{id}</p>}
   </div>
@@ -150,7 +150,7 @@ const Item = ({title, contents, id, isDisplay, children}) => (
 Item.propTypes = {
   title: PropTypes.string,
   contents: PropTypes.array,
-  id: PropTypes.string.isRequired,	// 필수 프로퍼티 지정 - isRequired
+  id: PropTypes.string.isRequired,  // 필수 프로퍼티 지정 - isRequired
   idDisplay: PropTypes.bool,
   children: PropTypes.node
 };
@@ -200,11 +200,11 @@ const Counter = () => {
   const reset = () => setCount(0);
   
   return (
-  	<div>
-    	<div>{count}</div>
-    	<button onClick={handlePlus}>+</button>
-			<button onClick={handleMinus}>-</button>
-			<button onClick={reset}>reset</button>
+    <div>
+      <div>{count}</div>
+      <button onClick={handlePlus}>+</button>
+      <button onClick={handleMinus}>-</button>
+      <button onClick={reset}>reset</button>
     </div>
   )
 };
