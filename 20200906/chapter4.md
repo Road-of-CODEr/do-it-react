@@ -22,3 +22,28 @@ Media 속성 값
 - medium: table
 - large: desktop
 - largeAndAboves: 모니터에 특화된 해상도
+
+```javascript
+function withStyles(styleFunc) {
+  // ...styleFunc code: https://github.com/airbnb/react-with-styles/blob/master/src/withStyles.jsx#L193
+  // THIS CODE: https://github.com/airbnb/react-with-styles/blob/master/src/withStyles.jsx#L122
+  return function getComponent(Component) {
+    return class WithStyleComponent extends React.Component {
+      render() {
+        return <Component {...this.props} />;
+      }
+    };
+  };
+}
+
+class Text extends React.PureComponent {
+  render() {
+    const { children, styles } = this.props;
+    return <span {...css(styles.default)}>{children}</span>;
+  }
+}
+
+export default withStyles(({ color, size }) => ({
+  default: { color: color.default, fontSize: size.md },
+}))(Text);
+```
