@@ -2,7 +2,6 @@
 
 ![Cover](https://image.yes24.com/momo/TopCate2918/MidCate010/291798691.jpg)
 
-- 참여자: 1ilsang, marco0332
 - [책 레파지토리](https://github.com/justinpark/justin-do-it-react)
 
 ### 진행방식
@@ -20,7 +19,17 @@
 2. [리액트 ES6 문법 액기스](20200830/chapter2.md)
 3. [리액트 컴포넌트](20200830/chapter3.md)
 4. [에어비앤비 디자인 시스템 따라 하기](20200906/chapter4.md)
-5. 리액트 고급 기술 따라 하기
-6. 컨텍스트로 데이터 관리하기
+5. [리액트 고급 기술 따라 하기](20200906/chapter5.md)
+6. [컨텍스트로 데이터 관리하기](20200906/chapter6.md)
+7. 리덕스로 데이터 관리하기
+8. 가상 코인 거래소 만들기
+9. 원격 데이터 연결하기
+10. 리덕스 고급 기능 활용하기
+
+#### Contributors
+
+<a href="https://github.com/Road-of-CODEr/do-it-react/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=Road-of-CODEr/do-it-react" />
+</a>
 
 # JUST DO IT
