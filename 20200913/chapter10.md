@@ -62,7 +62,7 @@ export default (initStates) =>
 
 ### redux-thunk 와 비동기 제어
 
-![[thunk architecture](https://designingforscale.com/understanding-redux-middleware-and-writing-custom-ones)](https://designingforscale.com/content/images/2017/09/reduxMiddleware.png)
+[![thunk architecture](https://designingforscale.com/content/images/2017/09/reduxMiddleware.png)](https://designingforscale.com/understanding-redux-middleware-and-writing-custom-ones)
 
 - 리덕스에서 데이터는 단방향으로 흘러야 한다.
 - 제각각 완료되는 비동기 작업의 결과가 단방향의 액션 호출 순서로 진행되어 데이터의 흐름을 시간 순서대로 처리.
